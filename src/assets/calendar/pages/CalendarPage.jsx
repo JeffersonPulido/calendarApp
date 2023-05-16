@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Calendar } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
@@ -22,18 +23,33 @@ const events = [
 
 export const CalendarPage = () => {
 
+  //Guardar ultima vista para la recarga del navegador
+  const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'week')
+  //Modificar estilos y retornarlos al cargar eventos
   const eventStyleGetter = (event, start, end, isSelected) => {
-    
+
     const style = {
       backgroundColor: '#186A3B',
       borderRadius: '0px',
       color: 'white',
       opacity: '0.8'
     }
-
     return {
       style
     }
+  }
+  //Funcion ejecutada al escuchar evento de doble click
+  const onDoubleClick = ( event ) => {
+    console.log({doubleClick: event})
+  }
+  //Funcion ejecutada al escuchar evento de click
+  const onSelect = ( event ) => {
+    console.log({click: event})
+  }
+  //Funcion ejecutada al escuchar evento de cambio de vista
+  const onViewChanged = ( event ) => {
+    localStorage.setItem('lastView', event)
+    setLastView(event)
   }
 
   return (
@@ -45,6 +61,7 @@ export const CalendarPage = () => {
         messages={getMessagesES()}
         localizer={localizer}
         events={events}
+        defaultView={ lastView }
         startAccessor="start"
         endAccessor="end"
         style={{ height: "calc(100vh - 80px)" }}
@@ -52,6 +69,9 @@ export const CalendarPage = () => {
         components={{
           event: CalendarBox
         }}
+        onDoubleClickEvent={ onDoubleClick }
+        onSelectEvent={ onSelect }
+        onView={ onViewChanged }
       />
     </>
   );
