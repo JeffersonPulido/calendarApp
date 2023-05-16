@@ -4,7 +4,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 
 import { addHours } from "date-fns";
 
-import { Navbar, CalendarBox } from "../";
+import { Navbar, CalendarBox, CalendarModal } from "../";
 import { localizer, getMessagesES } from "../../helpers/";
 
 const events = [
@@ -73,6 +73,9 @@ export const CalendarPage = () => {
         onSelectEvent={ onSelect }
         onView={ onViewChanged }
       />
+      
+      <CalendarModal/>
+
     </>
   );
 };
