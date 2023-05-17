@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { addHours } from "date-fns";
+import { addHours, differenceInSeconds } from "date-fns";
 
 import Modal from "react-modal";
 
@@ -53,6 +53,24 @@ export const CalendarModal = () => {
     })
   }
 
+  const onSubmit = (event) => {
+    event.preventDefault();
+    {/** Calcular diferencia en segundos entre las dos fechas */}
+    const difference = differenceInSeconds(formValues.end, formValues.start)
+    {/** Si la fecha NO es un numero o es menor a 0 retorna un error */}
+    if (isNaN(difference) || difference <= 0) {
+      console.log("Error en fechas")
+      return;
+    }
+    {/** Si el titulo tiene 0 o menos caracteres retorna un error */}
+    if ( formValues.title.length <= 0 ) {
+      console.log("Titulo vacio")
+      return;
+    }
+
+    console.log(formValues)
+  }
+
   return (
     <Modal
       isOpen={isOpen}
@@ -64,7 +82,8 @@ export const CalendarModal = () => {
     >
       <h1> Nuevo evento </h1>
       <hr />
-      <form className="container">
+      <form className="container" onSubmit={onSubmit}>
+        {/* FECHA INICIAL */}
         <div className="form-group mb-2">
           <label>Fecha y hora inicio</label>
           <DatePicker
@@ -77,7 +96,7 @@ export const CalendarModal = () => {
             onChange={ (event) =>  onDateChange(event, 'start')}
           />
         </div>
-
+        {/* FECHA FINAL */}
         <div className="form-group mb-2">
           <label>Fecha y hora fin</label>
           <DatePicker
@@ -91,8 +110,8 @@ export const CalendarModal = () => {
             onChange={ (event) =>  onDateChange(event, 'end')}
           />
         </div>
-
         <hr />
+        {/* TITULO */}
         <div className="form-group mb-2">
           <label>Titulo y notas</label>
           <input
@@ -108,7 +127,7 @@ export const CalendarModal = () => {
             Una descripción corta
           </small>
         </div>
-
+        {/* DESCRIPCION */}
         <div className="form-group mb-2">
           <textarea
             type="text"
