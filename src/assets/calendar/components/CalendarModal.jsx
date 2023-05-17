@@ -3,8 +3,12 @@ import { addHours, differenceInSeconds } from "date-fns";
 
 import Modal from "react-modal";
 
+import Swal from 'sweetalert2'
+import 'sweetalert2/dist/sweetalert2.min.css'
+
 import DatePicker, {registerLocale} from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+
 import es from 'date-fns/locale/es';
 registerLocale('es', es)
 
@@ -52,14 +56,14 @@ export const CalendarModal = () => {
       [changing]: event
     })
   }
-
+  //Funcion para prevenir el evento predeterminado del formulario al detectar el evento onSubmit y validacion de fechas y titulo
   const onSubmit = (event) => {
     event.preventDefault();
     {/** Calcular diferencia en segundos entre las dos fechas */}
     const difference = differenceInSeconds(formValues.end, formValues.start)
     {/** Si la fecha NO es un numero o es menor a 0 retorna un error */}
     if (isNaN(difference) || difference <= 0) {
-      console.log("Error en fechas")
+      Swal.fire('Fechas incorrectas', 'Revisar fechas ingresadas','error')
       return;
     }
     {/** Si el titulo tiene 0 o menos caracteres retorna un error */}
@@ -67,7 +71,6 @@ export const CalendarModal = () => {
       console.log("Titulo vacio")
       return;
     }
-
     console.log(formValues)
   }
 
