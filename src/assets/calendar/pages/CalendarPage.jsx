@@ -6,6 +6,7 @@ import { addHours } from "date-fns";
 
 import { Navbar, CalendarBox, CalendarModal } from "../";
 import { localizer, getMessagesES } from "../../helpers/";
+import { useUiStore } from "../../hooks";
 
 const events = [
   {
@@ -22,7 +23,8 @@ const events = [
 ];
 
 export const CalendarPage = () => {
-
+  //Custom hook que ejecuta la funcion de apertura del modal
+  const { openDateModal } = useUiStore()
   //Guardar ultima vista para la recarga del navegador
   const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'week')
   //Modificar estilos y retornarlos al cargar eventos
@@ -38,13 +40,14 @@ export const CalendarPage = () => {
       style
     }
   }
-  //Funcion ejecutada al escuchar evento de doble click
-  const onDoubleClick = ( event ) => {
-    console.log({doubleClick: event})
-  }
   //Funcion ejecutada al escuchar evento de click
   const onSelect = ( event ) => {
-    console.log({click: event})
+    
+  }
+  //Funcion ejecutada al escuchar evento de doble click
+  const onDoubleClick = ( event ) => {
+    // console.log({doubleClick: event})
+    openDateModal();
   }
   //Funcion ejecutada al escuchar evento de cambio de vista
   const onViewChanged = ( event ) => {

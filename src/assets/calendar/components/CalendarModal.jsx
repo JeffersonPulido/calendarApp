@@ -12,6 +12,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import es from 'date-fns/locale/es';
 registerLocale('es', es)
 
+import { useUiStore } from "../../hooks";
+
 import "./CalendarModal.css";
 
 const customStyles = {
@@ -28,9 +30,8 @@ const customStyles = {
 Modal.setAppElement("#root");
 
 export const CalendarModal = () => {
-
-  //Estado para abrir el modal
-  const [isOpen, setIsOpen] = useState(true);
+  //Consumo custom hook de funciones para brir y cerrar modal
+  const { isDateModalOpen, closeDateModal } = useUiStore();
   //Estado para controlar el submit del formulario
   const [formSubmitted, setFormSubmitted] = useState(false)
   //Estado valores iniciales formulario
@@ -47,10 +48,6 @@ export const CalendarModal = () => {
     ? 'is-valid'
     : 'is-invalid'
   }, [ formValues.title , formSubmitted])
-  //Funcion para cerrar el modal
-  const onCloseModal = () => {
-    setIsOpen(false);
-  };
   //Funcion para detectar cambios con OnChange en el formulario y guardarlos en el estado
   const onInputChange = ({target}) => {
     setFormValues({
@@ -86,8 +83,8 @@ export const CalendarModal = () => {
 
   return (
     <Modal
-      isOpen={isOpen}
-      onRequestClose={onCloseModal}
+      isOpen={isDateModalOpen}
+      onRequestClose={closeDateModal}
       style={customStyles}
       className="modal"
       overlayClassName="modal-fondo"
