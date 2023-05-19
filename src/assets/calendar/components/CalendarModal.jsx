@@ -40,6 +40,7 @@ export const CalendarModal = () => {
     start: new Date(),
     end: addHours(new Date(), 2)
   })
+  //Funcion que se dispara cuando detecta un cambio en el titulo o el submit del form, cambiando la clase del input para la validacion de este
   const titleClass = useMemo(() => {
     if ( !formSubmitted ) return '';
     return ( formValues.title.length > 0 )
