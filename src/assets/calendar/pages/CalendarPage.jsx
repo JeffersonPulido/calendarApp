@@ -6,25 +6,27 @@ import { addHours } from "date-fns";
 
 import { Navbar, CalendarBox, CalendarModal } from "../";
 import { localizer, getMessagesES } from "../../helpers/";
-import { useUiStore } from "../../hooks";
+import { useUiStore, useCalendarStore } from "../../hooks";
 
-const events = [
-  {
-    title: "HBD",
-    notes: "Pastel y decoracion",
-    start: new Date(),
-    end: addHours(new Date(), 2),
-    bgColor: "#fafafa",
-    user: {
-      _id: "123",
-      name: "BLADETIGER",
-    },
-  },
-];
+//  const events = [
+//   {
+//     title: "HBD",
+//     notes: "Pastel y decoracion",
+//     start: new Date(),
+//     end: addHours(new Date(), 2),
+//     bgColor: "#fafafa",
+//     user: {
+//       _id: "123",
+//       name: "BLADETIGER",
+//     },
+//   },
+// ];
 
 export const CalendarPage = () => {
   //Custom hook que ejecuta la funcion de apertura del modal
   const { openDateModal } = useUiStore()
+  //Custom hook para traer eventos al calendario
+  const { events } = useCalendarStore()
   //Guardar ultima vista para la recarga del navegador
   const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'week')
   //Modificar estilos y retornarlos al cargar eventos
