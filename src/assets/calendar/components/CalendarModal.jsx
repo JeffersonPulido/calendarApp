@@ -33,13 +33,13 @@ export const CalendarModal = () => {
   //Consumo custom hook de funciones para brir y cerrar modal
   const { isDateModalOpen, closeDateModal } = useUiStore();
   //Consumo custom hook de Calendar Store
-  const { activeEvent } = useCalendarStore();
+  const { activeEvent, startSavingEvent } = useCalendarStore();
   //Estado para controlar el submit del formulario
   const [formSubmitted, setFormSubmitted] = useState(false)
   //Estado valores iniciales formulario
   const [formValues, setFormValues] = useState({
-    title: 'Jefferson',
-    notes: 'Pulido Company',
+    title: '',
+    notes: '',
     start: new Date(),
     end: addHours(new Date(), 2)
   })
@@ -72,7 +72,7 @@ export const CalendarModal = () => {
     })
   }
   //Funcion para prevenir el evento predeterminado del formulario al detectar el evento onSubmit y validacion de fechas y titulo
-  const onSubmit = (event) => {
+  const onSubmit = async(event) => {
     event.preventDefault();
     setFormSubmitted(true)
     {/** Calcular diferencia en segundos entre las dos fechas */}
@@ -88,6 +88,10 @@ export const CalendarModal = () => {
       return;
     }
     console.log(formValues)
+    /** Disparar guardado de datos, cierre de modal y reinicio de estados */
+    await startSavingEvent( formValues )
+    closeDateModal()
+    setFormSubmitted(false)
   }
 
   return (
