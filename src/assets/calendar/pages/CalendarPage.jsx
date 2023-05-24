@@ -26,7 +26,7 @@ export const CalendarPage = () => {
   //Custom hook que ejecuta la funcion de apertura del modal
   const { openDateModal } = useUiStore()
   //Custom hook para traer eventos al calendario
-  const { events } = useCalendarStore()
+  const { events, setActiveEvent } = useCalendarStore()
   //Guardar ultima vista para la recarga del navegador
   const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'week')
   //Modificar estilos y retornarlos al cargar eventos
@@ -44,7 +44,7 @@ export const CalendarPage = () => {
   }
   //Funcion ejecutada al escuchar evento de click
   const onSelect = ( event ) => {
-    
+    setActiveEvent(event)
   }
   //Funcion ejecutada al escuchar evento de doble click
   const onDoubleClick = ( event ) => {

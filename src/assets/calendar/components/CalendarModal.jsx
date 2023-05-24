@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { addHours, differenceInSeconds } from "date-fns";
 
 import Modal from "react-modal";
@@ -12,7 +12,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import es from 'date-fns/locale/es';
 registerLocale('es', es)
 
-import { useUiStore } from "../../hooks";
+import { useCalendarStore, useUiStore } from "../../hooks";
 
 import "./CalendarModal.css";
 
@@ -32,6 +32,8 @@ Modal.setAppElement("#root");
 export const CalendarModal = () => {
   //Consumo custom hook de funciones para brir y cerrar modal
   const { isDateModalOpen, closeDateModal } = useUiStore();
+  //Consumo custom hook de Calendar Store
+  const { activeEvent } = useCalendarStore();
   //Estado para controlar el submit del formulario
   const [formSubmitted, setFormSubmitted] = useState(false)
   //Estado valores iniciales formulario
@@ -48,6 +50,13 @@ export const CalendarModal = () => {
     ? 'is-valid'
     : 'is-invalid'
   }, [ formValues.title , formSubmitted])
+  //Cargar informacion traida del evento del store
+  useEffect(() => {
+    if ( activeEvent !== null ){
+      setFormValues({ ...activeEvent })
+    }
+  }, [ activeEvent ])
+  
   //Funcion para detectar cambios con OnChange en el formulario y guardarlos en el estado
   const onInputChange = ({target}) => {
     setFormValues({
