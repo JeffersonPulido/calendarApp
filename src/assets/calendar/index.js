@@ -5,3 +5,4 @@ export * from './components/CalendarBox'
 export * from './components/CalendarModal'
 
 export * from './components/FabAddNew'
+export * from './components/FabDelete'
